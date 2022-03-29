@@ -15,6 +15,8 @@
 * [Programming ruby](https://ruby-doc.com/docs/ProgrammingRuby/)
 * ruby 元编程
 
+* https://github.com/gauthamchandra/learning-ruby-from-js
+
 
 ## 社区
 

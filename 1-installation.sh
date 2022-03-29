@@ -5,8 +5,8 @@
 ### 多版本管理
 # 为什么需要?
 # 有项目会指定适用的ruby版本。如果有多个ruby项目分别指定了不同的ruby版本，就需要这样的工具切换当前ruby的版本
-# * [rbenv](https://github.com/rbenv/rbenv)
-# * [rvm: ruby version manager](https://rvm.io/)
+# * [rbenv](https://github.com/rbenv/rbenv) 类似python的 pyenv
+# * [rvm: ruby version manager](https://rvm.io/)  类似node的 nvm
 
 # 安装 rbenv
 brew install rbenv
