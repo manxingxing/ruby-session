@@ -147,6 +147,12 @@ method_with_hash configA: "configA", configB: "configB"
 # 其实相当于
 # render({status: :forbidden, json: FORBIDDEN_ERROR})
 
+## 命名约定
+# "?" 结尾的方法，通常返回一个 boolean
+# "!" 结尾的方法，可能会修改当前对象，抛出异常，或者做一些值得注意的事情
+# "=" 结尾的方法，表示 setter 方法
+# 它们都是方法名的组成部分
+
 ### control-flow
 # * if/unless 可以后置(在某些语境下读的通顺)
 
