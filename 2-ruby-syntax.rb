@@ -126,26 +126,34 @@ foo(1,2, &sumLambda)
 # * lambda 调用时会检查参数个数，proc不会
 
 ### 方法
-def complex_method(arg1, *args, **kargs)
+# 定义和调用时，括号都可以省略
+
+# 最后一个参数是hash时，可以省略 {}
+def method_with_hash(a, b, options)
+  options
+end
+method_with_hash(1, 2, {configA: "configA", configB: "configB"})
+method_with_hash 1, 2, configA: "configA", configB: "configB"
+
+# render status: :forbidden, json: FORBIDDEN_ERROR
+# 其实相当于
+# render({status: :forbidden, json: FORBIDDEN_ERROR})
+
+# 新增: keyword argument(方法签名更清晰)
+def method_with_kw_args(a, b, option1: , option2: 10)
+  [a, b, option1, option2]
+end
+
+method_with_kw_args(1, 2, option1: 1, option2: 2)
+
+# 不定参数形参
+def method_with_var_args(arg1, *args, **kargs)
   puts "arg1 = #{arg1}"
   puts "args = #{args}"
   puts "kargs = #{kargs}"
 end
 
-complex_method(1, 2, 3, 4, a: 10, b: 1)
-# 方法(定义时、调用时)可以省略括号
-complex_method 1, 2, 3, 4, a: 10, b: 1
-
-# 最后一个参数是hash时，可以省略 {}
-def method_with_hash(options)
-  options
-end
-method_with_hash({configA: "configA", configB: "configB"})
-method_with_hash configA: "configA", configB: "configB"
-
-# render status: :forbidden, json: FORBIDDEN_ERROR
-# 其实相当于
-# render({status: :forbidden, json: FORBIDDEN_ERROR})
+method_with_var_args(1, 2, 3, 4, a: 10, b: 1)
 
 ## 命名约定
 # "?" 结尾的方法，通常返回一个 boolean
