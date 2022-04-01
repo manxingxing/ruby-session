@@ -125,6 +125,30 @@ foo(1,2, &sumLambda)
 # * lambda 里return会退出lambda，proc 里的return会退出所在的方法
 # * lambda 调用时会检查参数个数，proc不会
 
+### begin-end
+# 相当于其他语言的复合表达式，包裹一组表达式，最后一个语句的值是整个表达式的值
+begin
+  # expressions
+end
+
+# ruby 的异常处理使用了 begin-end
+begin
+  # expressions that may raise exceptions
+rescue StandardError => e
+  #
+ensure
+  # 类似 finally
+end
+
+# 如果 begin-end 外侧没有其他语句了，begin-end 可以省略
+def method_with_exception
+  # expressions
+rescue StandardError => e
+  # ...
+ensure
+  # ...
+end
+
 ### 方法
 # 定义和调用时，括号都可以省略
 
