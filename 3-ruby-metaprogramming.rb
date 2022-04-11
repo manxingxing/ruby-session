@@ -1,5 +1,17 @@
 #### 元编程
-# madness of meta-programming
+
+### 再次回忆rubyVM 里有什么
+# * 一个由嵌套的 module, class 组成的树
+# * 引用 module，class 时，自顶向下，用 "::" 连接起来
+# * 查找时, 自当前位置向上层查找
+#   参考 Module.nesting 的返回结果
+# * 前置的"::"表示从顶层开始查找
+#   talkdesk_main 里有很多例子
+# * 类包含 类方法(静态方法)，实例方法，实例变量
+
+### 元编程的含义
+# * 通过反射的方法，获取rubyVM里的对象
+# * 用代码生成代码，操作rubyVM里的对象
 
 ### 打开类 open class
 class Foo
@@ -26,10 +38,11 @@ require 'active_support/all'
 1.minutes.ago
 
 ### 动态调用
-"dog food".send(:upcase) # =>"DOG FOOD"  #private方法也可以调用
-"dog food".public_send(:upcase) # =>"DOG FOOD"
-# 相当于
 "dog food".upcase # =>"DOG FOOD"
+# "dog food".send(:upcase) # =>"DOG FOOD"  # private方法也可以调用
+"dog food".public_send(:upcase) # =>"DOG FOOD"
+
+# https://github.com/Talkdesk/talkdesk_main/blob/master/app/representers/api/pagination_representer.rb#L6-L13
 
 ### 反射
 module Greeting
@@ -41,9 +54,11 @@ end
 class Account
   include Greeting
 
+  NOT_FOUND_ERROR = "账号未找到"
+
   attr_reader :name, :passwd
 
-  @@accounts_repositories = {}
+  @@accounts_repository = {}
 
   def initialize(name, passwd)
     @name = name
@@ -55,7 +70,7 @@ class Account
   end
 
   def self.find(name)
-    @accounts_repositories[name]
+    @@accounts_repository[name] || raise(NOT_FOUND_ERROR)
   end
 
   def authenticate(passwd)
@@ -71,6 +86,17 @@ account = Account.new("bob", "111111")
 account.instance_variables
 account.instance_variable_get(:@name)
 account.instance_variable_set(:@passwd, '123456')
+account.is_a?(Account)
+account.instance_of?(Account)
+account.respond_to?(:authenticate)
+# 常量
+Account.constants
+Account.const_get(:NOT_FOUND_ERROR)
+Account.const_set(:NOT_FOUND_ERROR, "Account not found")
+Account.send(:remove_const, :NOT_FOUND_ERROR)
+
+# https://github.com/Talkdesk/talkdesk_main/blob/qa/lib/talkdesk/interactors/phones/add_hold_music.rb#L64-L65
+
 # 获取类的继承链
 Account.ancestors # => [Account, Greeting, Object, PP::ObjectMixin, Kernel, BasicObject]
 Account.included_modules # => [Greeting, PP::ObjectMixin, Kernel]
@@ -78,22 +104,25 @@ Account.superclass # => Object
 
 ### 动态生成代码
 # 创建类，module
-# 添加, 删除方法
-# 方法别名, 修饰方法
-alias_method :new_name, :old_name
-alias new_name old_name
-# https://www.rubyguides.com/2018/11/ruby-alias-keyword/
+# https://github.com/Talkdesk/talkdesk_main/blob/qa/lib/talkdesk/errors.rb#L2
 
+# 添加, 删除方法
 # 添加, 删除常量(普通常量，类，模块)
-# https://github.com/Talkdesk/talkdesk_main/blob/master/lib/talkdesk/interactors/phones/add_hold_music.rb#L64-L65
 
 ### 在类、模块、实例的 context 下执行任意代码
 # class_eval
 # class_exec
+
 # https://github.com/Talkdesk/talkdesk_main/blob/master/config/initializers/mongoid_objectid.rb
 
 # instance_eval
 # instance_exec
+# https://github.com/Talkdesk/talkdesk_main/blob/qa/app/representers/api/pagination_representer.rb#L20-L35
+
+# 方法别名, 修饰方法
+alias_method :new_name, :old_name
+alias new_name old_name
+# https://www.rubyguides.com/2018/11/ruby-alias-keyword/
 
 
 

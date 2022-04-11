@@ -45,10 +45,16 @@ matz = {
   name: "matz",
   age: 56
 }
+# 和下面写法等价. key 是Symbol类型
+# matz = {
+#   :name => "matz",
+#   :age => 56
+# }
 matz[:name]
 matz[:age]
 matz[:age] = 57
 
+# key是字符串类型
 matz = {
   "name" => "matz",
   "age" => 56
