@@ -31,7 +31,7 @@ class Foo
 end
 
 # 给已有的类，扩充/覆盖方法
-# https://github.com/rails/rails/blob/de53ba56cab69fb9707785a397a59ac4aaee9d6f/activesupport/lib/active_support/core_ext/string/inflections.rb
+# example: https://github.com/rails/rails/blob/de53ba56cab69fb9707785a397a59ac4aaee9d6f/activesupport/lib/active_support/core_ext/string/inflections.rb
 
 require 'active_support/all'
 "dog food".camelcase # => "Dog food"
@@ -39,10 +39,10 @@ require 'active_support/all'
 
 ### 动态调用
 "dog food".upcase # =>"DOG FOOD"
-# "dog food".send(:upcase) # =>"DOG FOOD"  # private方法也可以调用
+"dog food".send(:upcase) # =>"DOG FOOD"  # private方法也可以调用
 "dog food".public_send(:upcase) # =>"DOG FOOD"
 
-# https://github.com/Talkdesk/talkdesk_main/blob/master/app/representers/api/pagination_representer.rb#L6-L13
+# example: https://github.com/Talkdesk/talkdesk_main/blob/master/app/representers/api/pagination_representer.rb#L6-L13
 
 ### 反射
 module Greeting
@@ -81,18 +81,21 @@ end
 # 列出类里定义的实例方法，类方法
 Account.instance_methods
 Account.singleton_methods
+
 # 获取, 设置实例上的实例变量
 account = Account.new("bob", "111111")
 account.instance_variables
 account.instance_variable_get(:@name)
 account.instance_variable_set(:@passwd, '123456')
-account.is_a?(Account)
-account.instance_of?(Account)
+account.is_a?(Account) # true
+account.instance_of?(Account) # true
 account.respond_to?(:authenticate)
+
 # 常量
 Account.constants
 Account.const_get(:NOT_FOUND_ERROR)
 Account.const_set(:NOT_FOUND_ERROR, "Account not found")
+Account.const_remove(:NOT_FOUND_ERROR)
 Account.send(:remove_const, :NOT_FOUND_ERROR)
 
 # https://github.com/Talkdesk/talkdesk_main/blob/qa/lib/talkdesk/interactors/phones/add_hold_music.rb#L64-L65
@@ -145,7 +148,7 @@ end
 
 Cat.new.eatable? # => false
 
-# https://github.com/Talkdesk/talkdesk_main/blob/qa/app/representers/api/pagination_representer.rb#L5-L15
+# example: https://github.com/Talkdesk/talkdesk_main/blob/qa/app/representers/api/pagination_representer.rb#L5-L15
 
 # class 被继承
 # 方法未找到 method_missing

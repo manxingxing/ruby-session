@@ -137,6 +137,8 @@ begin
   # expressions
 end
 
+# example: https://github.com/Talkdesk/talkdesk_main/blob/qa/app/controllers/sites_controller.rb#L28
+
 # ruby 的异常处理使用了 begin-end
 begin
   # expressions that may raise exceptions
@@ -146,6 +148,8 @@ ensure
   # 类似 finally
 end
 
+# example: https://github.com/Talkdesk/talkdesk_main/blob/qa/app/controllers/application_controller.rb#L127-L134
+
 # 如果 begin-end 外侧没有其他语句了，begin-end 可以省略
 def method_with_exception
   # expressions
@@ -154,6 +158,8 @@ rescue StandardError => e
 ensure
   # ...
 end
+
+# example: https://github.com/Talkdesk/talkdesk_main/blob/qa/app/controllers/billing_api_controller.rb#L4-L22
 
 ### 方法
 # 定义和调用时，括号都可以省略
